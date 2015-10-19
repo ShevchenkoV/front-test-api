@@ -21,12 +21,14 @@ var app = angular.module('front',[
 		randomuserURL: "https://randomuser.me/api"
 	};
 	
+
 	var ApiEndpoint = $resource($scope.apiURLs.randomuserURL);
 	var limit = $stateParams.limit;
 
-	ApiEndpoint.get({results:limit}).$promise.then(function(data){
-		$scope.userList = data.results;
-	});
+	ApiEndpoint.get({results:limit})
+		.$promise.then(function(data){
+			$scope.userList = data.results;
+		});
 	
 	$scope.selectUser = function(index){
 		$scope.activeUser = $scope.activeUser != index ? index : -1
@@ -37,7 +39,7 @@ var app = angular.module('front',[
 	};
 	
 	$scope.getGenderIconClass = function(gender){
-		return gender=="male" ? 'fa-male' : 'fa-female'
+		return ['fa',gender].join('-');
 	};
 
 }])

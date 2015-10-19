@@ -1,17 +1,46 @@
+describe('Front-test-api suit:', function () {
 
-'use strict';
+	beforeEach(module('front'));
 
-describe('front module', function() {
+  var $controller;
 
-  beforeEach(module('front'));
+  beforeEach(inject(function(_$controller_){
+    $controller = _$controller_;
+  }));
 
-  describe('view1 controller', function(){
+  describe('UsersListCtrl :', function () {
+  
+        it('apiURLs should be defined', function () {
+            var $scope = {};
+            var controller = $controller('UsersListCtrl', { $scope: $scope });        
+  
+            expect($scope.apiURLs).toBeDefined();
+        });
 
-    it('should ....', inject(function($controller) {
-      //spec body
-      var view1Ctrl = $controller('View1Ctrl');
-      expect(view1Ctrl).toBeDefined();
-    }));
+        it('selected should change activeUser', function(){
+        	var $scope = {};
+            var controller = $controller('UsersListCtrl', { $scope: $scope });  
 
-  });
+            $scope.selectUser(1);
+            expect($scope.activeUser).toBe(1); 
+        }); 
+
+        it('isActiveUser should return true/false', function(){
+        	var $scope = {};
+            var controller = $controller('UsersListCtrl', { $scope: $scope });
+
+            expect($scope.isActiveUser(-2)).toBe(false);
+
+            $scope.selectUser(1);
+            expect($scope.isActiveUser(1)).toBe(true);
+        });
+
+        it('getGenderIconClass', function(){
+        	var $scope = {};
+            var controller = $controller('UsersListCtrl', { $scope: $scope });
+
+            expect($scope.getGenderIconClass("male")).toBe("fa-male");           
+         	expect($scope.getGenderIconClass("female")).toBe("fa-female");
+        });
+    });
 });

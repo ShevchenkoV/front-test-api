@@ -7,7 +7,11 @@ module.exports = function(config) {
 
     files: [
       'bower_components/angular/angular.js',
-      'bower_modules/angular-mocks/angular-mocks.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/angular-resource/angular-resource.js',
+      'bower_components/angular-animate/angular-animate.js',
+
+      'bower_components/angular-mocks/angular-mocks.js',
       'src/**/*.js',
       'src/**/*.html'
     ],
@@ -15,25 +19,8 @@ module.exports = function(config) {
     exclude: [
     ],
 
-    preprocessors: {
-      'src/**/*.html': ['ng-html2js'],
-      'src/**/!(*.mock|*.spec).js': ['coverage']
-    },
 
-    ngHtml2JsPreprocessor: {
-      // strip this from the file path
-      stripPrefix: 'src/',
-      // create a single module that contains templates from all the files
-      moduleName: 'templates'
-    },
-
-    reporters: ['progress', 'coverage'],
-
-    coverageReporter: {
-      type : 'html',
-      // output coverage reports
-      dir : 'coverage/'
-    },
+    reporters: ['progress'],
 
     port: 9876,
 

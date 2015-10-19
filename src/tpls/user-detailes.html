@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col-md-9">
+		<div class="row">
+			<div class="col-md-2 col-md-offset-1">
+				<h3>{{item.user.name.first}}
+					<i class="pull-right fa" ng-class="getGenderIconClass(item.user.gender)"></i>
+				</h3>
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4 col-md-offset-1">
+			  	<span><strong>Username: </strong> {{item.user.username}}</span><br>
+			  	<span><strong>Registered: </strong> {{item.user.registered | date : "MM/dd/yyyy"}}</span><br>
+			  	<span><strong>Email: </strong> {{item.user.email}}</span>
+			</div>
+			<div class="col-md-4">
+			  	<span><strong>Address: </strong>{{item.user.location.street}}</span><br>
+			  	<span><strong>City: </strong>{{item.user.location.city}}</span><br>
+			  	<span><strong>Zip: </strong>{{item.user.location.zip}}</span>
+			</div>
+			<div class="col-md-3">
+			  	<span><strong>Birthday: </strong>{{item.user.dob | date : "MM/dd/yyyy"}}</span><br>
+			  	<span><strong>Phone: </strong>{{item.user.phone}}</span><br>
+			  	<span><strong>Cell: </strong>{{item.user.cell}}</span><br>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<img ng-src="{{item.user.picture.medium}}" class="img-circle img-response shadow-white">
+	</div>
+</div>

@@ -1,0 +1,33 @@
+<div class="well">
+<table class=" table table-striped">
+   <thead>
+      <tr>
+         <th></th>
+         <th>Last Name</th>
+         <th>First Name</th>
+         <th>User Name</th>
+         <th>Phone</th>
+         <th>Location</th>
+         <th></th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr ng-repeat-start="item in userList" class="main">
+         <td><img class="img-circle shadow-white" ng-src="{{item.user.picture.thumbnail}}"></td>
+         <td>{{item.user.name.last}}</td>
+         <td>{{item.user.name.first}}</td>
+         <td>{{item.user.username}}</td>
+         <td>{{item.user.phone}}</th>
+         <td>{{item.user.location.state}}</th>
+         <td>         	
+         	<button type="button" class="btn btn-default" ng-click="selectUser($index)">+</button>
+         </td>
+		<tr ng-if="isActiveUser($index)" ng-repeat-end="">
+			<td colspan="7">
+				<div detailed-info></div>
+			</td>
+		</tr>
+      </tr>
+   </tbody>
+  </table>
+</div>

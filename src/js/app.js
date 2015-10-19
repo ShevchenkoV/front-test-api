@@ -5,21 +5,26 @@ var app = angular.module('front',[
 	])
 .config(function($stateProvider, $urlRouterProvider){
 	$stateProvider
-    .state('/', {
-        url: "/",
+	.state('main', {
+		url : "/",
+		templateUrl : 'src/tpls/main.html'
+	})
+    .state('users-list', {
+        url: "/users-list/:limit",
         controller : 'UsersListCtrl',
         templateUrl: 'src/tpls/users-list.html'
     });
     $urlRouterProvider.otherwise('/');
 })
-.controller('UsersListCtrl', ['$resource','$scope',function($resource,$scope) {
+.controller('UsersListCtrl', ['$resource','$scope','$stateParams',function($resource,$scope, $stateParams) {
 	$scope.apiURLs = {
-		randomuserURL: "https://randomuser.me/api/?results=10"
+		randomuserURL: "https://randomuser.me/api"
 	};
 	
 	var ApiEndpoint = $resource($scope.apiURLs.randomuserURL);
+	var limit = $stateParams.limit;
 
-	ApiEndpoint.get().$promise.then(function(data){
+	ApiEndpoint.get({results:limit}).$promise.then(function(data){
 		$scope.userList = data.results;
 	});
 	

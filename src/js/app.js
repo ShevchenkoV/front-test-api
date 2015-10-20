@@ -16,16 +16,11 @@ var app = angular.module('front',[
     });
     $urlRouterProvider.otherwise('/');
 })
-.controller('UsersListCtrl', ['$resource','$scope','$stateParams',function($resource,$scope, $stateParams) {
-	$scope.apiURLs = {
-		randomuserURL: "https://randomuser.me/api"
-	};
-	
+.controller('UsersListCtrl', ['$scope','$stateParams','UsersSrvc',function($scope, $stateParams,UsersSrvc) {
 
-	var ApiEndpoint = $resource($scope.apiURLs.randomuserURL);
 	var limit = $stateParams.limit;
 
-	ApiEndpoint.get({results:limit})
+	UsersSrvc.getUsers(limit)
 		.$promise.then(function(data){
 			$scope.userList = data.results;
 		});
@@ -42,6 +37,18 @@ var app = angular.module('front',[
 		return ['fa',gender].join('-');
 	};
 
+}])
+
+.service('UsersSrvc', ['$resource', function($resource){
+	var url = "https://randomuser.me/api";
+	var resource = $resource(url);
+
+	return {
+		url : url,
+		getUsers : function(param){
+			return resource.get({results:param});
+		}
+	} 
 }])
 
 .directive('detailedInfo',function(){

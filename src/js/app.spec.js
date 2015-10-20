@@ -2,45 +2,89 @@ describe('Front-test-api suit:', function () {
 
 	beforeEach(module('front'));
 
-  var $controller;
 
-  beforeEach(inject(function(_$controller_){
-    $controller = _$controller_;
-  }));
+  	describe('UsersListCtrl :', function () {
+  
+		var scope, createController;
 
-  describe('UsersListCtrl :', function () {
-  
-        it('apiURLs should be defined', function () {
-            var $scope = {};
-            var controller = $controller('UsersListCtrl', { $scope: $scope });        
-  
-            expect($scope.apiURLs).toBeDefined();
-        });
+		beforeEach(inject(function($rootScope, $controller){
+			scope = $rootScope.$new();
+			createController = function(){
+				return $controller('UsersListCtrl', {'$scope' : scope});
+			}
+		}));
 
         it('selected should change activeUser', function(){
-        	var $scope = {};
-            var controller = $controller('UsersListCtrl', { $scope: $scope });  
+            var controller = createController();
 
-            $scope.selectUser(1);
-            expect($scope.activeUser).toBe(1); 
+            scope.selectUser(1);
+            expect(scope.activeUser).toBe(1); 
         }); 
 
         it('isActiveUser should return true/false', function(){
-        	var $scope = {};
-            var controller = $controller('UsersListCtrl', { $scope: $scope });
+            var controller = createController();
 
-            expect($scope.isActiveUser(-2)).toBe(false);
+            expect(scope.isActiveUser(-2)).toBe(false);
 
-            $scope.selectUser(1);
-            expect($scope.isActiveUser(1)).toBe(true);
+            scope.selectUser(1);
+            expect(scope.isActiveUser(1)).toBe(true);
         });
 
         it('getGenderIconClass', function(){
-        	var $scope = {};
-            var controller = $controller('UsersListCtrl', { $scope: $scope });
+            var controller = createController();
 
-            expect($scope.getGenderIconClass("male")).toBe("fa-male");           
-         	expect($scope.getGenderIconClass("female")).toBe("fa-female");
+            expect(scope.getGenderIconClass("male")).toBe("fa-male");           
+         	expect(scope.getGenderIconClass("female")).toBe("fa-female");
         });
     });
+
+	describe('UsersSrvc: ', function(){
+		var mockUserSrvc, $httpBackend;
+
+		beforeEach(function(){
+			angular.mock.inject( function($injector){
+				$httpBackend = $injector.get('$httpBackend');
+				mockUsersSrvc = $injector.get('UsersSrvc');
+			});
+		});
+
+		it('should have url and method defined',function(){
+			expect(mockUsersSrvc.getUsers).toBeDefined();
+			expect(mockUsersSrvc.url).toBeDefined();
+		});
+
+		it('should call resource with params', function(){
+			var param = 5;
+			var mockResults = new Array(5);
+			var results;
+			$httpBackend.expectGET('https://randomuser.me/api'+'?results='+ param)
+				.respond({data:mockResults});
+
+			mockUsersSrvc.getUsers(param).$promise.then(function(data){
+				results = data;
+			});
+
+			$httpBackend.flush();
+
+			expect(results.data.length).toEqual(5);
+
+		});
+
+		it('should call resource with params', function(){
+
+			var mockResults = new Array(1);
+			var results;
+			$httpBackend.expectGET('https://randomuser.me/api')
+				.respond({data:mockResults});
+
+			mockUsersSrvc.getUsers().$promise.then(function(data){
+				results = data;
+			});
+
+			$httpBackend.flush();
+			
+			expect(results.data.length).toEqual(1);
+
+		});
+	});
 });

@@ -21,7 +21,7 @@ var app = angular.module('front',[
 	var limit = $stateParams.limit;
 
 	UsersSrvc.getUsers(limit)
-		.$promise.then(function(data){
+		.then(function(data){
 			$scope.userList = data.results;
 		});
 	
@@ -46,7 +46,7 @@ var app = angular.module('front',[
 	return {
 		url : url,
 		getUsers : function(param){
-			return resource.get({results:param});
+			return resource.get({results:param}).$promise;
 		}
 	} 
 }])

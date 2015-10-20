@@ -60,7 +60,7 @@ describe('Front-test-api suit:', function () {
 			$httpBackend.expectGET('https://randomuser.me/api'+'?results='+ param)
 				.respond({data:mockResults});
 
-			mockUsersSrvc.getUsers(param).$promise.then(function(data){
+			mockUsersSrvc.getUsers(param).then(function(data){
 				results = data;
 			});
 
@@ -77,7 +77,7 @@ describe('Front-test-api suit:', function () {
 			$httpBackend.expectGET('https://randomuser.me/api')
 				.respond({data:mockResults});
 
-			mockUsersSrvc.getUsers().$promise.then(function(data){
+			mockUsersSrvc.getUsers().then(function(data){
 				results = data;
 			});
 
